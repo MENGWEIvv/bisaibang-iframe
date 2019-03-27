@@ -5,6 +5,6 @@ export const controlRoute: Route = {
     path: 'control',
     component: ControlComponent,
     data: {
-        pageTitle: '控制台'
+        pageTitle: 'control'
     }
 };

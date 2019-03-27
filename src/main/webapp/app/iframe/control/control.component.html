@@ -1,3 +1,92 @@
-<p>
-  control works!
-</p>
+<div class="container">
+    <div class="iframe-tab">
+        <ngb-tabset type="pills">
+            <ngb-tab *ngFor="let item of iframeList" [title]="item.iframe">
+                <ng-template ngbTabContent>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>iframe名称</th>
+                                <th>阶段</th>
+                                <th>时间</th>
+                                <th>小组</th>
+                                <th>是否为默认项</th>
+                                <th>赛事id</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let it of item.data">
+                                <td>{{ item.iframe }}</td>
+                                <td>{{ it.stage }}</td>
+                                <td>{{ it.time }}</td>
+                                <td>{{ it.group }}</td>
+                                <td>{{ it.default }}</td>
+                                <td>{{ it.raceid }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm">删除</button>
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                        (click)="open(content)">修改</button>
+                                    <button type="button" class="btn btn-primary btn-sm">设为默认项</button>
+                                    <ng-template #content let-modal>
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="modal-basic-title">修改iframe</h4>
+                                            <button type="button" class="close" aria-label="Close"
+                                                (click)="modal.dismiss('Cross click')">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="stage" class="control-label">阶段</label>
+                                                    <input class="form-control" id="stage" placeholder="阶段">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="time" class="control-label">时间</label>
+                                                    <input class="form-control" id="time" placeholder="时间">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="group" class="control-label">小组</label>
+                                                    <input class="form-control" id="group" placeholder="小组">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="group" class="control-label">赛事id</label>
+                                                    <input class="form-control" id="group" placeholder="赛事id">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary"
+                                                (click)="modal.close('Save click')">Save</button>
+                                        </div>
+                                    </ng-template>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="+ iframe">
+                <ng-template ngbTabContent>
+                    <form>
+                        <div class="form-group">
+                            <label for="stage" class="control-label">阶段</label>
+                            <input class="form-control" id="stage" placeholder="现只支持一个阶段" >
+                            {{ addStage }}
+                        </div>
+                        <div class="form-group">
+                            <label for="time" class="control-label">时间</label>
+                            <input class="form-control" id="time" placeholder="时间识别样式为：xxxx|xxxxx">
+                        </div>
+                        <div class="form-group">
+                            <label for="group" class="control-label">小组</label>
+                            <input class="form-control" id="group" placeholder="小组识别样式为a、a|b、b" >
+                        </div>
+                        <button type="submit" class="btn btn-primary" (click)="addIframe()">Submit</button>
+                    </form>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>
