@@ -19,8 +19,8 @@ import { RaceAccountModule } from './account/account.module';
 import { RaceEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
-import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
-
+import { JhiMainComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent, NavbarComponent } from './layouts';
+import { IframeModule } from './iframe/iframe.module';
 @NgModule({
     imports: [
         BrowserModule,
@@ -38,9 +38,10 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         RaceAccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         RaceEntityModule,
-        RaceAppRoutingModule
+        RaceAppRoutingModule,
+        IframeModule
     ],
-    declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
+    declarations: [JhiMainComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, NavbarComponent],
     providers: [
         {
             provide: HTTP_INTERCEPTORS,
