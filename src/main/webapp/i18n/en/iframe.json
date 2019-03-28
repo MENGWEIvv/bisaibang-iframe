@@ -1,0 +1,27 @@
+{
+    "raceApp": {
+        "iframe": {
+            "home": {
+                "title": "Iframes",
+                "createLabel": "Create a new Iframe",
+                "createOrEditLabel": "Create or edit a Iframe"
+            },
+            "created": "A new Iframe is created with identifier {{ param }}",
+            "updated": "A Iframe is updated with identifier {{ param }}",
+            "deleted": "A Iframe is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Iframe {{ id }}?"
+            },
+            "detail": {
+                "title": "Iframe"
+            },
+            "iframe": "Iframe",
+            "name": "Name",
+            "stage": "Stage",
+            "time": "Time",
+            "group": "Group",
+            "flag": "Flag",
+            "raceId": "Race Id"
+        }
+    }
+}

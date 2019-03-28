@@ -1,0 +1,43 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "iframe",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "stage",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "time",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "group",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "flag",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "raceId",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20190328052732",
+    "dto": "no",
+    "searchEngine": false,
+    "service": "serviceClass",
+    "entityTableName": "iframe",
+    "databaseType": "sql",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

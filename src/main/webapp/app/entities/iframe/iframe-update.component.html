@@ -1,0 +1,59 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-iframe-heading" jhiTranslate="raceApp.iframe.home.createOrEditLabel">Create or edit a Iframe</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!iframe.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="iframe.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="raceApp.iframe.iframe" for="field_iframe">Iframe</label>
+                    <input type="text" class="form-control" name="iframe" id="field_iframe"
+                        [(ngModel)]="iframe.iframe" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="raceApp.iframe.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="iframe.name" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="raceApp.iframe.stage" for="field_stage">Stage</label>
+                    <input type="text" class="form-control" name="stage" id="field_stage"
+                        [(ngModel)]="iframe.stage" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="raceApp.iframe.time" for="field_time">Time</label>
+                    <input type="text" class="form-control" name="time" id="field_time"
+                        [(ngModel)]="iframe.time" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="raceApp.iframe.group" for="field_group">Group</label>
+                    <input type="text" class="form-control" name="group" id="field_group"
+                        [(ngModel)]="iframe.group" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="raceApp.iframe.flag" for="field_flag">Flag</label>
+                    <input type="number" class="form-control" name="flag" id="field_flag"
+                        [(ngModel)]="iframe.flag" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="raceApp.iframe.raceId" for="field_raceId">Race Id</label>
+                    <input type="number" class="form-control" name="raceId" id="field_raceId"
+                        [(ngModel)]="iframe.raceId" />
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
