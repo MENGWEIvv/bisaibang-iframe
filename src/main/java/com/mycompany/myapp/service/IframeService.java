@@ -2,6 +2,7 @@ package com.mycompany.myapp.service;
 
 import com.mycompany.myapp.domain.Iframe;
 import com.mycompany.myapp.repository.IframeRepository;
+import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,26 +30,47 @@ public class IframeService {
     }
 
     /**
-     * Save a iframe.
+     * Save some iframes.
      *
-     * @param iframe the entity to save
-     * @return the persisted entity
+     * @param iframes some entities to save
+     * @return the persisted entities
      */
-    public Iframe save(Iframe iframe) {
-        log.debug("Request to save Iframe : {}", iframe);
-        return iframeRepository.save(iframe);
+    public List<Iframe> saveAll(List<Iframe> iframes) {
+        log.debug("Request to save Iframe : {}", iframes);
+        return iframeRepository.saveAll(iframes);
+    }
+
+    /**
+     * update a iframe
+     *
+     * @param data
+     * @return
+     */
+    public Iframe update(Iframe data) {
+        log.debug("Request to update Iframe : {}", data);
+        return iframeRepository.findById(data.getId())
+            .map(iframe -> {
+                iframe.setName(data.getName());
+                iframe.setGroup(data.getGroup());
+                iframe.setRaceId(data.getRaceId());
+                iframe.setStage(data.getStage());
+                iframe.setTime(data.getTime());
+                iframe.setFlag(data.getFlag());
+                return iframeRepository.save(iframe);
+            })
+            .orElseThrow(() -> new BadRequestAlertException("id 错误", null, null));
     }
 
     /**
      * Get all the iframes.
      *
-     * @param pageable the pagination information
+     * @param
      * @return the list of entities
      */
     @Transactional(readOnly = true)
-    public Page<Iframe> findAll(Pageable pageable) {
+    public List<Iframe> findAll() {
         log.debug("Request to get all Iframes");
-        return iframeRepository.findAll(pageable);
+        return iframeRepository.findAll();
     }
 
 
@@ -72,4 +95,94 @@ public class IframeService {
         log.debug("Request to delete Iframe : {}", id);
         iframeRepository.deleteById(id);
     }
+
+    /**
+     * 根据 iframe 的 name查询
+     *
+     * @param name
+     * @return
+     */
+    public List<Iframe> findAllByName(String name) {
+        return iframeRepository.findAllByName(name);
+    }
+
+    /**
+     * 根据 iframe的name 和 阶段 来查询
+     *
+     * @param stage
+     * @return
+     */
+    public List<Iframe> findAllByNameAndStage(String name, String stage) {
+        return iframeRepository.findAllByNameAndStage(name, stage);
+    }
+
+    /**
+     * 根据 iframe的name 和  时间 来查询
+     *
+     * @param time
+     * @return
+     */
+    public List<Iframe> findAllByNameAndTime(String name, String time) {
+        return iframeRepository.findAllByNameAndTime(name, time);
+    }
+
+    /**
+     * 根据 iframe的name 和 小组 来查询
+     *
+     * @param group
+     * @return
+     */
+    public List<Iframe> findAllByNameAndGroup(String name, String group) {
+        return iframeRepository.findAllByNameAndGroup(name, group);
+    }
+
+    /**
+     * 根据 iframe的name 和 阶段 和 时间 来查询
+     *
+     * @param name
+     * @param stage
+     * @param time
+     * @return
+     */
+    public List<Iframe> findAllByNameAndStageAndTime(String name, String stage, String time) {
+        return iframeRepository.findAllByNameAndStageAndTime(name, stage, time);
+    }
+
+    /**
+     * 根据 iframe的name 和 阶段 和 小组 来查询
+     *
+     * @param name
+     * @param stage
+     * @param group
+     * @return
+     */
+    public List<Iframe> findAllByNameAndStageAndGroup(String name, String stage, String group) {
+        return iframeRepository.findAllByNameAndStageAndGroup(name, stage, group);
+    }
+
+    /**
+     * 根据 iframe的name 和 时间 和 小组 来查询
+     *
+     * @param name
+     * @param time
+     * @param group
+     * @return
+     */
+    public List<Iframe> findAllByNameAndTimeAndGroup(String name, String time, String group) {
+        return iframeRepository.findAllByNameAndTimeAndGroup(name, time, group);
+    }
+
+    /**
+     * 根据 iframe的name 和 阶段 和 小组 和 时间 来查询
+     *
+     * @param name
+     * @param time
+     * @param group
+     * @param stage
+     * @return
+     */
+    public List<Iframe> findAllByNameAndTimeAndGroupAndStage(String name, String time, String group, String stage) {
+        return iframeRepository.findAllByNameAndTimeAndGroupAndStage(name, time, group, stage);
+    }
+
 }

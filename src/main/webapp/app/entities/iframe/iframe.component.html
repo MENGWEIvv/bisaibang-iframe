@@ -15,7 +15,6 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="iframe"><span jhiTranslate="raceApp.iframe.iframe">Iframe</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="name"><span jhiTranslate="raceApp.iframe.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="stage"><span jhiTranslate="raceApp.iframe.stage">Stage</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="time"><span jhiTranslate="raceApp.iframe.time">Time</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -28,7 +27,6 @@
             <tbody>
             <tr *ngFor="let iframe of iframes ;trackBy: trackId">
                 <td><a [routerLink]="['/iframe', iframe.id, 'view' ]">{{iframe.id}}</a></td>
-                <td>{{iframe.iframe}}</td>
                 <td>{{iframe.name}}</td>
                 <td>{{iframe.stage}}</td>
                 <td>{{iframe.time}}</td>

@@ -7,6 +7,10 @@ import { RouterModule } from '@angular/router';
             {
                 path: 'iframe',
                 loadChildren: './iframe/iframe.module#RaceIframeModule'
+            },
+            {
+                path: 'iframe',
+                loadChildren: './iframe/iframe.module#RaceIframeModule'
             }
             /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
         ])

@@ -38,26 +38,26 @@ public class IframeResource {
     }
 
     /**
-     * POST  /iframes : 创建一个新的iframe记录
+     * POST  /iframes : Create some new iframes.
      *
-     * @param iframe the iframe to create
+     * @param iframes the iframe to create
      * @return the ResponseEntity with status 201 (Created) and with body the new iframe, or with status 400 (Bad Request) if the iframe has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/iframes")
-    public ResponseEntity<Iframe> createIframe(@RequestBody(required = false) Iframe iframe) throws URISyntaxException {
-        log.debug("REST request to save Iframe : {}", iframe);
-        if (iframe.getId() != null) {
-            throw new BadRequestAlertException("A new iframe cannot already have an ID", ENTITY_NAME, "idexists");
+    public List<Iframe> createIframe(@RequestBody List<Iframe> iframes) throws URISyntaxException {
+        log.debug("REST request to save Iframe : {}", iframes);
+        for (Iframe iframe: iframes) {
+            if (iframe.getId() != null) {
+                throw new BadRequestAlertException("A new iframe cannot already have an ID", ENTITY_NAME, "idexists");
+            }
         }
-        Iframe result = iframeService.save(iframe);
-        return ResponseEntity.created(new URI("/api/iframes/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+
+        return iframeService.saveAll(iframes);
     }
 
     /**
-     * PUT  /iframes : 更新一条以存在的iframe记录.
+     * PUT  /iframes : Update an existing iframe.
      *
      * @param iframe the iframe to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated iframe,
@@ -66,33 +66,28 @@ public class IframeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/iframes")
-    public ResponseEntity<Iframe> updateIframe(@RequestBody(required = false) Iframe iframe) throws URISyntaxException {
+    public Iframe updateIframe(@RequestBody Iframe iframe) throws URISyntaxException {
         log.debug("REST request to update Iframe : {}", iframe);
         if (iframe.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Iframe result = iframeService.save(iframe);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, iframe.getId().toString()))
-            .body(result);
+        return iframeService.update(iframe);
     }
 
     /**
-     * GET  /iframes : 获取所有iframe记录
+     * GET  /iframes : get all the iframes.
      *
-     * @param pageable the pagination information
+     * @param
      * @return the ResponseEntity with status 200 (OK) and the list of iframes in body
      */
     @GetMapping("/iframes")
-    public ResponseEntity<List<Iframe>> getAllIframes(Pageable pageable) {
+    public List<Iframe> getAllIframes() {
         log.debug("REST request to get a page of Iframes");
-        Page<Iframe> page = iframeService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/iframes");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return iframeService.findAll();
     }
 
     /**
-     * GET  /iframes/:id : get the "id" iframe. 通过id获取iframe记录
+     * GET  /iframes/:id : get the "id" iframe.
      *
      * @param id the id of the iframe to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the iframe, or with status 404 (Not Found)
@@ -105,7 +100,7 @@ public class IframeResource {
     }
 
     /**
-     * DELETE  /iframes/:id : delete the "id" iframe. 通过id删除iframe记录
+     * DELETE  /iframes/:id : delete the "id" iframe.
      *
      * @param id the id of the iframe to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -116,4 +111,102 @@ public class IframeResource {
         iframeService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * 根据 iframe 的 name查询
+     * @param name
+     * @return
+     */
+    @GetMapping("/findAllByName/{name}")
+    public List<Iframe> findAllByName(@PathVariable String name){
+        log.debug("REST request to Get Iframe ByName : {}", name);
+        return iframeService.findAllByName(name);
+    }
+
+    /**
+     * 根据 iframe的name 和 阶段 来查询
+     * @param stage
+     * @return
+     */
+    @GetMapping("/findAllByNameAndStage/{name}/{stage}")
+    public List<Iframe> findAllByNameAndStage(@PathVariable String name, @PathVariable String stage){
+        log.debug("REST request to Get Iframe ByNameAndStage : {}", name + "---" + stage);
+        return iframeService.findAllByNameAndStage(name, stage);
+    }
+
+    /**
+     * 根据 iframe的name 和  时间 来查询
+     * @param time
+     * @return
+     */
+    @GetMapping("/findAllByNameAndTime/{name}/{time}")
+    public List<Iframe> findAllByNameAndTime(@PathVariable String name, @PathVariable String time){
+        log.debug("REST request to Get Iframe ByNameAndTime : {}", name + "---" + time);
+        return iframeService.findAllByNameAndTime(name, time);
+    }
+
+    /**
+     * 根据 iframe的name 和 小组 来查询
+     * @param group
+     * @return
+     */
+    @GetMapping("/findAllByNameAndGroup/{name}/{group}")
+    public List<Iframe> findAllByNameAndGroup(@PathVariable String name, @PathVariable String group){
+        log.debug("REST request to Get Iframe ByNameAndGroup : {}", name + "---" + group);
+        return iframeService.findAllByNameAndGroup(name, group);
+    }
+
+    /**
+     * 根据 iframe的name 和 阶段 和 时间 来查询
+     * @param name
+     * @param stage
+     * @param time
+     * @return
+     */
+    @GetMapping("/findAllByNameAndStageAndTime/{name}/{stage}/{time}")
+    public List<Iframe> findAllByNameAndStageAndTime(@PathVariable String name, @PathVariable String stage, @PathVariable String time){
+        log.debug("REST request to Get Iframe ByNameAndGroup : {}", name + "---" + stage + "---" + time);
+        return iframeService.findAllByNameAndStageAndTime(name, stage, time);
+    }
+
+    /**
+     * 根据 iframe的name 和 阶段 和 小组 来查询
+     * @param name
+     * @param stage
+     * @param group
+     * @return
+     */
+    @GetMapping("/findAllByNameAndStageAndGroup/{name}/{stage}/{group}")
+    public List<Iframe> findAllByNameAndStageAndGroup(@PathVariable String name, @PathVariable String stage, @PathVariable String group){
+        log.debug("REST request to Get Iframe ByNameAndStageAndGroup : {}", name + "---" + stage + "---" + group);
+        return iframeService.findAllByNameAndStageAndGroup(name, stage, group);
+    }
+
+    /**
+     * 根据 iframe的name 和 时间 和 小组 来查询
+     * @param name
+     * @param time
+     * @param group
+     * @return
+     */
+    @GetMapping("/findAllByNameAndTimeAndGroup/{name}/{time}/{group}")
+    public List<Iframe> findAllByNameAndTimeAndGroup(@PathVariable String name, @PathVariable String time, @PathVariable String group){
+        log.debug("REST request to Get Iframe ByNameAndTimeAndGroup : {}", name + "---" + time + "---" + group);
+        return iframeService.findAllByNameAndTimeAndGroup(name, time, group);
+    }
+
+    /**
+     * 根据 iframe的name 和 阶段 和 小组 和 时间 来查询
+     * @param name
+     * @param time
+     * @param group
+     * @param stage
+     * @return
+     */
+    @GetMapping("/findAllByNameAndTimeAndGroupAndStage/{name}/{time}/{group}/{stage}")
+    public List<Iframe> findAllByNameAndTimeAndGroupAndStage(@PathVariable String name, @PathVariable String time, @PathVariable String group, @PathVariable String stage){
+        log.debug("REST request to Get Iframe ByNameAndTimeAndGroupAndStage : {}", name + "---" + time + "---" + group + "---" + stage);
+        return iframeService.findAllByNameAndTimeAndGroupAndStage(name,time,group,stage);
+    }
+
 }

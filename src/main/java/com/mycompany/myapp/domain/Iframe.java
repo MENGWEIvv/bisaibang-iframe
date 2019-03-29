@@ -18,31 +18,28 @@ import java.util.Objects;
 public class Iframe implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "iframe")
-    private String iframe;
-
     @Column(name = "name")
-    private String name;
+    private String name;        // iframe名
 
     @Column(name = "stage")
-    private String stage;
+    private String stage;       // 阶段
 
     @Column(name = "jhi_time")
-    private String time;
+    private String time;        // 时间
 
     @Column(name = "jhi_group")
-    private String group;
+    private String group;       // 小组
 
     @Column(name = "flag")
-    private Integer flag;
+    private Integer flag;       // 是否设为默认项
 
     @Column(name = "race_id")
-    private Integer raceId;
+    private Integer raceId;     // 赛事id
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -50,20 +47,7 @@ public class Iframe implements Serializable {
     }
 
     public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getIframe() {
-        return iframe;
-    }
-
-    public Iframe iframe(String iframe) {
-        this.iframe = iframe;
-        return this;
-    }
-
-    public void setIframe(String iframe) {
-        this.iframe = iframe;
+           this.id = id;
     }
 
     public String getName() {
@@ -169,7 +153,6 @@ public class Iframe implements Serializable {
     public String toString() {
         return "Iframe{" +
             "id=" + getId() +
-            ", iframe='" + getIframe() + "'" +
             ", name='" + getName() + "'" +
             ", stage='" + getStage() + "'" +
             ", time='" + getTime() + "'" +

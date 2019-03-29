@@ -41,9 +41,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RaceApp.class)
 public class IframeResourceIntTest {
 
-    private static final String DEFAULT_IFRAME = "AAAAAAAAAA";
-    private static final String UPDATED_IFRAME = "BBBBBBBBBB";
-
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
@@ -107,7 +104,6 @@ public class IframeResourceIntTest {
      */
     public static Iframe createEntity(EntityManager em) {
         Iframe iframe = new Iframe()
-            .iframe(DEFAULT_IFRAME)
             .name(DEFAULT_NAME)
             .stage(DEFAULT_STAGE)
             .time(DEFAULT_TIME)
@@ -137,7 +133,6 @@ public class IframeResourceIntTest {
         List<Iframe> iframeList = iframeRepository.findAll();
         assertThat(iframeList).hasSize(databaseSizeBeforeCreate + 1);
         Iframe testIframe = iframeList.get(iframeList.size() - 1);
-        assertThat(testIframe.getIframe()).isEqualTo(DEFAULT_IFRAME);
         assertThat(testIframe.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testIframe.getStage()).isEqualTo(DEFAULT_STAGE);
         assertThat(testIframe.getTime()).isEqualTo(DEFAULT_TIME);
@@ -176,7 +171,6 @@ public class IframeResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(iframe.getId().intValue())))
-            .andExpect(jsonPath("$.[*].iframe").value(hasItem(DEFAULT_IFRAME.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].stage").value(hasItem(DEFAULT_STAGE.toString())))
             .andExpect(jsonPath("$.[*].time").value(hasItem(DEFAULT_TIME.toString())))
@@ -184,7 +178,7 @@ public class IframeResourceIntTest {
             .andExpect(jsonPath("$.[*].flag").value(hasItem(DEFAULT_FLAG)))
             .andExpect(jsonPath("$.[*].raceId").value(hasItem(DEFAULT_RACE_ID)));
     }
-    
+
     @Test
     @Transactional
     public void getIframe() throws Exception {
@@ -196,7 +190,6 @@ public class IframeResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(iframe.getId().intValue()))
-            .andExpect(jsonPath("$.iframe").value(DEFAULT_IFRAME.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.stage").value(DEFAULT_STAGE.toString()))
             .andExpect(jsonPath("$.time").value(DEFAULT_TIME.toString()))
@@ -217,7 +210,7 @@ public class IframeResourceIntTest {
     @Transactional
     public void updateIframe() throws Exception {
         // Initialize the database
-        iframeService.save(iframe);
+        iframeService.update(iframe);
 
         int databaseSizeBeforeUpdate = iframeRepository.findAll().size();
 
@@ -226,7 +219,6 @@ public class IframeResourceIntTest {
         // Disconnect from session so that the updates on updatedIframe are not directly saved in db
         em.detach(updatedIframe);
         updatedIframe
-            .iframe(UPDATED_IFRAME)
             .name(UPDATED_NAME)
             .stage(UPDATED_STAGE)
             .time(UPDATED_TIME)
@@ -243,7 +235,6 @@ public class IframeResourceIntTest {
         List<Iframe> iframeList = iframeRepository.findAll();
         assertThat(iframeList).hasSize(databaseSizeBeforeUpdate);
         Iframe testIframe = iframeList.get(iframeList.size() - 1);
-        assertThat(testIframe.getIframe()).isEqualTo(UPDATED_IFRAME);
         assertThat(testIframe.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testIframe.getStage()).isEqualTo(UPDATED_STAGE);
         assertThat(testIframe.getTime()).isEqualTo(UPDATED_TIME);
@@ -274,7 +265,7 @@ public class IframeResourceIntTest {
     @Transactional
     public void deleteIframe() throws Exception {
         // Initialize the database
-        iframeService.save(iframe);
+        iframeService.update(iframe);
 
         int databaseSizeBeforeDelete = iframeRepository.findAll().size();
 

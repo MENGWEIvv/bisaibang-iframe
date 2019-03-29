@@ -1,6 +1,5 @@
 export interface IIframe {
     id?: number;
-    iframe?: string;
     name?: string;
     stage?: string;
     time?: string;
@@ -12,7 +11,6 @@ export interface IIframe {
 export class Iframe implements IIframe {
     constructor(
         public id?: number,
-        public iframe?: string,
         public name?: string,
         public stage?: string,
         public time?: string,

@@ -21,7 +21,7 @@ describe('Service Tests', () => {
             service = injector.get(IframeService);
             httpMock = injector.get(HttpTestingController);
 
-            elemDefault = new Iframe(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, 0);
+            elemDefault = new Iframe(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, 0);
         });
 
         describe('Service methods', async () => {
@@ -55,7 +55,6 @@ describe('Service Tests', () => {
             it('should update a Iframe', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        iframe: 'BBBBBB',
                         name: 'BBBBBB',
                         stage: 'BBBBBB',
                         time: 'BBBBBB',
@@ -78,7 +77,6 @@ describe('Service Tests', () => {
             it('should return a list of Iframe', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        iframe: 'BBBBBB',
                         name: 'BBBBBB',
                         stage: 'BBBBBB',
                         time: 'BBBBBB',

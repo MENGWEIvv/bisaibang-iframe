@@ -4,10 +4,6 @@
     "relationships": [],
     "fields": [
         {
-            "fieldName": "iframe",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "name",
             "fieldType": "String"
         },
