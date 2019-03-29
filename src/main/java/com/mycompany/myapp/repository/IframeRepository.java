@@ -17,6 +17,13 @@ public interface IframeRepository extends JpaRepository<Iframe, Long> {
     @Query("select name from Iframe group by name")
     List<String> findAllName();
 
+    @Query("select time from Iframe group by time")
+    List<String> findAllTime();
+
+    @Query("select stage from Iframe group by stage")
+    List<String> findAllStage();
+
+
     /**
      * 根据 iframe 的 name查询
      * @param name

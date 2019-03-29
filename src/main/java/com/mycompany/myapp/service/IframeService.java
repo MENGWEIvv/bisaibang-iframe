@@ -78,6 +78,26 @@ public class IframeService {
         return iframeRepository.findAllName();
     }
 
+    public List<String> findAllTime(){
+        log.debug("Request to get all Iframes Times");
+        return iframeRepository.findAllTime();
+    }
+
+    public List<String> findAllStage(){
+        log.debug("Request to get all Iframes stages");
+        return iframeRepository.findAllStage();
+    }
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Get one iframe by id.
      *
@@ -145,11 +165,10 @@ public class IframeService {
      *
      * @param name
      * @param stage
-     * @param time
      * @return
      */
-    public List<Iframe> findAllByNameAndStageAndTime(String name, String stage, String time) {
-        return iframeRepository.findAllByNameAndStageAndTime(name, stage, time);
+    public List<Iframe> findAllByNameAndStageAndTime(String name, String stage) {
+        return iframeRepository.findAllByNameAndStage(name, stage);
     }
 
     /**
