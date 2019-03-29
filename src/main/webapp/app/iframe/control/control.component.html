@@ -1,6 +1,43 @@
-<div class="container">
+<div class="container iframe-body">
+    <div class="add-iframe">
+        <button type="button" class="btn btn-primary btn-sm"
+            routeLink="['/contestent/new']">添加iframe</button>
+        <ng-template #add let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">添加iframe</h4>
+                <button type="button" class="close" aria-label="Close"
+                    (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="name" class="control-label">iframe名称</label>
+                        <input class="form-control" name="name" placeholder="现只支持一个iframe" [(ngModel)]="addName">
+                    </div>
+                    <div class="form-group">
+                        <label for="stage" class="control-label">阶段</label>
+                        <input class="form-control" name="stage" placeholder="现只支持一个阶段" [(ngModel)]="addStage">
+                    </div>
+                    <div class="form-group">
+                        <label for="time" class="control-label">时间</label>
+                        <input class="form-control" name="time" placeholder="现只支持一个时间" [(ngModel)]="addTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="group" class="control-label">小组</label>
+                        <input class="form-control" name="group" placeholder="小组识别样式为xxxx/xxxx/xxxx" [(ngModel)]="addGroups">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"
+                    (click)="modal.close('Save click')" (click)="addIframe()">Save</button>
+            </div>
+        </ng-template>
+    </div>
     <div class="iframe-tab">
-        <ngb-tabset type="pills">
+        <ngb-tabset type="pills" *ngIf="iframeList.length">
             <ngb-tab *ngFor="let item of iframeList" [title]="item.iframe">
                 <ng-template ngbTabContent>
                     <table class="table table-striped">
@@ -17,17 +54,17 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let it of item.data">
-                                <td>{{ item.iframe }}</td>
+                                <td>{{ it.name }}</td>
                                 <td>{{ it.stage }}</td>
                                 <td>{{ it.time }}</td>
                                 <td>{{ it.group }}</td>
-                                <td>{{ it.default }}</td>
-                                <td>{{ it.raceid }}</td>
+                                <td>{{ it.flag? 'true' : 'false' }}</td>
+                                <td>{{ it.raceId }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary btn-sm">删除</button>
+                                    <button type="button" class="btn btn-primary btn-sm" (click)="delIframe(it.id)">删除</button>
                                     <button type="button" class="btn btn-primary btn-sm"
-                                        (click)="open(content)">修改</button>
-                                    <button type="button" class="btn btn-primary btn-sm">设为默认项</button>
+                                        (click)="open(content, it)">修改</button>
+                                    <button type="button" class="btn btn-primary btn-sm" (click)="defaultIframe(it)">设为默认项</button>
                                     <ng-template #content let-modal>
                                         <div class="modal-header">
                                             <h4 class="modal-title" id="modal-basic-title">修改iframe</h4>
@@ -39,26 +76,30 @@
                                         <div class="modal-body">
                                             <form>
                                                 <div class="form-group">
+                                                    <label for="name" class="control-label">iframe名称</label>
+                                                    <input class="form-control" name="name" placeholder="iframe名称" [(ngModel)]="updateName">
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="stage" class="control-label">阶段</label>
-                                                    <input class="form-control" id="stage" placeholder="阶段">
+                                                    <input class="form-control" name="stage" placeholder="阶段" [(ngModel)]="updateStage">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="time" class="control-label">时间</label>
-                                                    <input class="form-control" id="time" placeholder="时间">
+                                                    <input class="form-control" name="time" placeholder="时间" [(ngModel)]="updateTime">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="group" class="control-label">小组</label>
-                                                    <input class="form-control" id="group" placeholder="小组">
+                                                    <input class="form-control" name="group" placeholder="小组" [(ngModel)]="updateGroup">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="group" class="control-label">赛事id</label>
-                                                    <input class="form-control" id="group" placeholder="赛事id">
+                                                    <input class="form-control" name="group" placeholder="赛事id" [(ngModel)]="updateRaceId">
                                                 </div>
                                             </form>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary"
-                                                (click)="modal.close('Save click')">Save</button>
+                                                (click)="modal.close('Save click')" (click)="updateIframe(it)">Save</button>
                                         </div>
                                     </ng-template>
                                 </td>
@@ -67,26 +108,8 @@
                     </table>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="+ iframe">
-                <ng-template ngbTabContent>
-                    <form>
-                        <div class="form-group">
-                            <label for="stage" class="control-label">阶段</label>
-                            <input class="form-control" id="stage" placeholder="现只支持一个阶段" >
-                            {{ addStage }}
-                        </div>
-                        <div class="form-group">
-                            <label for="time" class="control-label">时间</label>
-                            <input class="form-control" id="time" placeholder="时间识别样式为：xxxx|xxxxx">
-                        </div>
-                        <div class="form-group">
-                            <label for="group" class="control-label">小组</label>
-                            <input class="form-control" id="group" placeholder="小组识别样式为a、a|b、b" >
-                        </div>
-                        <button type="submit" class="btn btn-primary" (click)="addIframe()">Submit</button>
-                    </form>
-                </ng-template>
-            </ngb-tab>
         </ngb-tabset>
+        <div *ngIf="!iframeList.length">暂无数据</div>
     </div>
 </div>
+<!-- <nz-demo-tree-line>loading</nz-demo-tree-line> -->

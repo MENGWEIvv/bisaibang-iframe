@@ -8,6 +8,7 @@
         "node_modules"
     ],
     "dependencies": {
+        "@angular/animations": "^7.2.11",
         "@angular/common": "7.2.4",
         "@angular/compiler": "7.2.4",
         "@angular/core": "7.2.4",
@@ -25,6 +26,7 @@
         "core-js": "2.6.4",
         "moment": "2.24.0",
         "ng-jhipster": "0.9.1",
+        "ng-zorro-antd": "^7.2.0",
         "ngx-cookie": "2.0.1",
         "ngx-infinite-scroll": "7.0.1",
         "ngx-webstorage": "2.0.1",
