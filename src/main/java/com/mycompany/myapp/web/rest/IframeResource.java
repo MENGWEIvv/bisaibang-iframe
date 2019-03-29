@@ -38,6 +38,24 @@ public class IframeResource {
     }
 
     /**
+     * 对后台界面需要的JSON进行封装
+     * @return
+     */
+    public List<ResultJSON> result(){
+        List<ResultJSON> resultJSONS = new ArrayList<>();
+        List<String> allName = iframeService.findAllName();
+        for (String name:
+            allName) {
+            ResultJSON resultJSON = new ResultJSON();
+            resultJSON.setIframe(name);
+            resultJSON.setData(iframeService.findAllByName(name));
+            resultJSONS.add(resultJSON);
+        }
+        log.debug("================================ : {}", resultJSONS);
+        return resultJSONS;
+    }
+
+    /**
      * POST  /iframes : Create some new iframes.
      *
      * @param iframes the iframe to create
@@ -52,20 +70,9 @@ public class IframeResource {
                 throw new BadRequestAlertException("A new iframe cannot already have an ID", ENTITY_NAME, "idexists");
             }
         }
+        iframeService.saveAll(iframes);
 
-        List<ResultJSON> resultJSONS = new ArrayList<>();
-
-        List<String> allName = iframeService.findAllName();
-
-        for (String name:
-             allName) {
-            ResultJSON resultJSON = new ResultJSON();
-            resultJSON.setIframe(name);
-            resultJSON.setData(iframeService.findAllByName(name));
-            resultJSONS.add(resultJSON);
-        }
-        log.debug("================================ : {}", resultJSONS);
-        return resultJSONS;
+        return this.result();
     }
 
     /**
@@ -78,12 +85,13 @@ public class IframeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/iframes")
-    public Iframe updateIframe(@RequestBody Iframe iframe) throws URISyntaxException {
+    public List<ResultJSON> updateIframe(@RequestBody Iframe iframe) throws URISyntaxException {
         log.debug("REST request to update Iframe : {}", iframe);
         if (iframe.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        return iframeService.update(iframe);
+        iframeService.update(iframe);
+        return this.result();
     }
 
     /**
@@ -118,10 +126,10 @@ public class IframeResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/iframes/{id}")
-    public ResponseEntity<Void> deleteIframe(@PathVariable Long id) {
+    public List<ResultJSON> deleteIframe(@PathVariable Long id) {
         log.debug("REST request to delete Iframe : {}", id);
         iframeService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        return this.result();
     }
 
     /**
