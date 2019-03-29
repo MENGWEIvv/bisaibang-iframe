@@ -73,6 +73,10 @@ public class IframeService {
         return iframeRepository.findAll();
     }
 
+    public List<String> findAllName(){
+        log.debug("Request to get all Iframes names");
+        return iframeRepository.findAllName();
+    }
 
     /**
      * Get one iframe by id.

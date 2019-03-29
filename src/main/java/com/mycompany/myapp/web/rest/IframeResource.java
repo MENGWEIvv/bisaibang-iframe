@@ -1,5 +1,6 @@
 package com.mycompany.myapp.web.rest;
 import com.mycompany.myapp.domain.Iframe;
+import com.mycompany.myapp.domain.ResultJSON;
 import com.mycompany.myapp.service.IframeService;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import com.mycompany.myapp.web.rest.util.HeaderUtil;
@@ -17,8 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * REST controller for managing Iframe.
@@ -45,7 +45,7 @@ public class IframeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/iframes")
-    public List<Iframe> createIframe(@RequestBody List<Iframe> iframes) throws URISyntaxException {
+    public List<ResultJSON> createIframe(@RequestBody List<Iframe> iframes) throws URISyntaxException {
         log.debug("REST request to save Iframe : {}", iframes);
         for (Iframe iframe: iframes) {
             if (iframe.getId() != null) {
@@ -53,7 +53,19 @@ public class IframeResource {
             }
         }
 
-        return iframeService.saveAll(iframes);
+        List<ResultJSON> resultJSONS = new ArrayList<>();
+
+        List<String> allName = iframeService.findAllName();
+
+        for (String name:
+             allName) {
+            ResultJSON resultJSON = new ResultJSON();
+            resultJSON.setIframe(name);
+            resultJSON.setData(iframeService.findAllByName(name));
+            resultJSONS.add(resultJSON);
+        }
+        log.debug("================================ : {}", resultJSONS);
+        return resultJSONS;
     }
 
     /**

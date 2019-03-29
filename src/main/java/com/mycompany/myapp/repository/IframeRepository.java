@@ -14,6 +14,9 @@ import java.util.List;
 @Repository
 public interface IframeRepository extends JpaRepository<Iframe, Long> {
 
+    @Query("select name from Iframe group by name")
+    List<String> findAllName();
+
     /**
      * 根据 iframe 的 name查询
      * @param name
