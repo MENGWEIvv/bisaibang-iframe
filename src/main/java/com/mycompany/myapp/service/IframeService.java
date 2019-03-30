@@ -99,7 +99,7 @@ public class IframeService {
      */
     public String deleteAll(){
         iframeRepository.deleteAll();
-        return "删除成功"
+        return "删除成功";
     }
 
 
