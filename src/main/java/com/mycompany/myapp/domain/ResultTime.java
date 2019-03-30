@@ -6,7 +6,7 @@ public class ResultTime {
 
     private String time;
 
-    private List<String> groups;
+    private List<Iframe> groups;
 
     public String getTime() {
         return time;
@@ -16,11 +16,11 @@ public class ResultTime {
         this.time = time;
     }
 
-    public List<String> getGroups() {
+    public List<Iframe> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<String> groups) {
+    public void setGroups(List<Iframe> groups) {
         this.groups = groups;
     }
 

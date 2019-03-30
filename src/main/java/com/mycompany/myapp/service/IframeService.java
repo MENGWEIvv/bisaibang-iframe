@@ -88,7 +88,10 @@ public class IframeService {
         return iframeRepository.findAllStage();
     }
 
-
+    public List<String> findAllGroup(){
+        log.debug("Request to get all Iframes stages");
+        return iframeRepository.findAllGroup();
+    }
 
 
 
@@ -167,8 +170,8 @@ public class IframeService {
      * @param stage
      * @return
      */
-    public List<Iframe> findAllByNameAndStageAndTime(String name, String stage) {
-        return iframeRepository.findAllByNameAndStage(name, stage);
+    public List<Iframe> findAllByNameAndStageAndTime(String name, String stage, String time) {
+        return iframeRepository.findAllByNameAndStageAndTime(name, stage, time);
     }
 
     /**
@@ -204,7 +207,7 @@ public class IframeService {
      * @param stage
      * @return
      */
-    public List<Iframe> findAllByNameAndTimeAndGroupAndStage(String name, String time, String group, String stage) {
+    public Iframe findAllByNameAndTimeAndGroupAndStage(String name, String time, String group, String stage){
         return iframeRepository.findAllByNameAndTimeAndGroupAndStage(name, time, group, stage);
     }
 
