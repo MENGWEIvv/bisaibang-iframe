@@ -1,0 +1,54 @@
+<div class="lookbox">
+  <div class="looktop"> 
+    <!-- <div class="top-tabs">
+      <div class="top-item" *ngFor="let stage of getStageList" (click)="nowStage=stage"
+      [class.active]="nowStage === stage"
+         >
+          {{ stage }}
+      </div>
+    </div>
+    <div class="con-tabs">
+      <div class="time-item" *ngFor="let time of getTimeList"
+      (click)="nowTime=time;Date(time) "
+      [class.active]="nowTime === time "
+      >
+          {{ time }}
+      </div>
+    </div>
+    <div class="bot-tabs">
+        <div class="group-item" *ngFor="let group of getGroupList">
+            {{ group }}
+        </div>
+    </div> -->
+    <ngb-tabset>
+        <ngb-tab [title]="i.stage" *ngFor='let i of list'>
+            <ng-template ngbTabContent>
+                <!-- <ngb-tab [title]="l.time" ></ngb-tab> -->
+                <ngb-tabset>
+                    <ngb-tab [title]="l.time" *ngFor='let l of i.times'>
+                        <ng-template ngbTabContent>
+                            <ngb-tabset>
+                                <ngb-tab [title]="l.group" *ngFor='let l of l.groups'>
+                                    <ng-template ngbTabContent>
+
+                                    </ng-template>
+                                </ngb-tab>
+                            </ngb-tabset>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+       
+    
+  </div>
+  <div class="con">
+    <div class="con-table" *ngIf='teamList.length!==0'>
+      11111111111111111144444444444444444444444444444
+     </div>
+     <div class="con-conent" *ngIf='teamList.length===0'>敬请期待</div>
+    </div>
+    
+  </div>
+</div>
