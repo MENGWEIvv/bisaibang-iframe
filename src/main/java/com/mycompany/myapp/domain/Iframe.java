@@ -130,26 +130,6 @@ public class Iframe implements Serializable {
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Iframe iframe = (Iframe) o;
-        if (iframe.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), iframe.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
-
-    @Override
     public String toString() {
         return "Iframe{" +
             "id=" + getId() +
@@ -160,5 +140,21 @@ public class Iframe implements Serializable {
             ", flag=" + getFlag() +
             ", raceId=" + getRaceId() +
             "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Iframe iframe = (Iframe) o;
+        return name.equals(iframe.name) &&
+            stage.equals(iframe.stage) &&
+            time.equals(iframe.time) &&
+            group.equals(iframe.group);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, stage, time, group);
     }
 }

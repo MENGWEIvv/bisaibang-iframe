@@ -59,20 +59,34 @@ public class IframeResource {
     /**
      * POST  /iframes : Create some new iframes.
      *
-     * @param iframes the iframe to create
+     * @param iframeCome the iframe to create
      * @return the ResponseEntity with status 201 (Created) and with body the new iframe, or with status 400 (Bad Request) if the iframe has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/iframes")
-    public List<ResultJSON> createIframe(@RequestBody List<Iframe> iframes) throws URISyntaxException {
-        log.debug("REST request to save Iframe : {}", iframes);
-        for (Iframe iframe: iframes) {
+    public List<ResultJSON> createIframe(@RequestBody List<Iframe> iframeCome) throws URISyntaxException {
+        Set<Iframe> iframeSet = new HashSet<>();
+        for (Iframe iframe:
+             iframeCome) {
+            Iframe allByNameAndTimeAndGroupAndStage = iframeService.findAllByNameAndTimeAndGroupAndStage(
+                iframe.getName(), iframe.getTime(), iframe.getGroup(), iframe.getStage());
+            if (Objects.equals(allByNameAndTimeAndGroupAndStage, iframe)){
+                throw new BadRequestAlertException(iframe.getGroup() + " 小组已经存在，请重新添加", ENTITY_NAME, "groupexists");
+            }
+            iframeSet.add(iframe);
+        }
+        List<Iframe> iframeList = new ArrayList<>();
+        for (Iframe iframe:
+             iframeSet) {
+            iframeList.add(iframe);
+        }
+        log.debug("REST request to save Iframe : {}", iframeList);
+        for (Iframe iframe: iframeList) {
             if (iframe.getId() != null) {
                 throw new BadRequestAlertException("A new iframe cannot already have an ID", ENTITY_NAME, "idexists");
             }
         }
-        iframeService.saveAll(iframes);
-
+        iframeService.saveAll(iframeList);
         return this.result();
     }
 
@@ -135,27 +149,22 @@ public class IframeResource {
 
     @GetMapping("/iframeList/{iframeName}")
     public List<EndResult> iframeList(@PathVariable String iframeName){
-
         List<IFrameName> listname = new ArrayList<>();
         List<String> nameList = iframeService.findAllName();
         List<String> timeList = iframeService.findAllTime();
         List<String> stageList = iframeService.findAllStage();
         List<String> allGroup = iframeService.findAllGroup();
 
-        Set<Integer> idSet = new HashSet<>();
-
-
+        Set<Long> idSet = new HashSet<>();
+        Set<String> nameSet = new HashSet<>();
+        Set<String> timeSet = new HashSet<>();
+        Set<String> stageSet = new HashSet<>();
 
         List<EndResult> endResults = new ArrayList<>();
-//        for (String name:
-//             nameList) {
             List<IFrameName> iFrameNames = new ArrayList<>();
-
             for (String stage:
                  stageList) {
-
                 List<ResultTime> resultTimes = new ArrayList<>();
-
                 for (String time:
                      timeList) {
                     List<Iframe> groups = new ArrayList<>();
@@ -163,8 +172,10 @@ public class IframeResource {
                          allGroup) {
                         Iframe iframe = iframeService.findAllByNameAndTimeAndGroupAndStage(iframeName, time, group, stage);
                         if (iframe != null && iframe.getGroup() != null){
-
-                            groups.add(iframe);
+                            if (!idSet.contains(iframe.getId())){
+                                groups.add(iframe);
+                                idSet.add(iframe.getId());
+                            }
                         }
                     }
                     ResultTime rt = new ResultTime();
@@ -173,8 +184,11 @@ public class IframeResource {
                     for (Iframe i:
                         allByNameAndStageAndTime) {
                         if (i != null && i.getGroup() != null && i.getTime() != null){
-                            rt.setGroups(groups);
-                            resultTimes.add(rt);
+                            if (!timeSet.contains(i.getTime())){
+                                rt.setGroups(groups);
+                                resultTimes.add(rt);
+                                timeSet.add(i.getTime());
+                            }
                         }
                     }
                 }
@@ -184,8 +198,11 @@ public class IframeResource {
                 for (Iframe i:
                     allByNameAndStage) {
                     if (i != null && i.getGroup() != null && i.getTime() != null && i.getStage() != null){
-                        iFrameName.setTimes(resultTimes);
-                        iFrameNames.add(iFrameName);
+                        if (!stageSet.contains(i.getStage())){
+                            iFrameName.setTimes(resultTimes);
+                            iFrameNames.add(iFrameName);
+                            stageSet.add(i.getStage());
+                        }
                     }
                 }
 
@@ -196,24 +213,35 @@ public class IframeResource {
         for (Iframe i:
             allByName) {
             if (i != null && i.getGroup() != null && i.getTime() != null && i.getStage() != null && i.getName() != null){
-                endResult.setStages(iFrameNames);
-                endResults.add(endResult);
+                if (!nameSet.contains(i.getName())){
+                    endResult.setStages(iFrameNames);
+                    endResults.add(endResult);
+                    nameSet.add(i.getName());
+                }
             }
         }
-//        }
         return endResults;
     }
 
-//    /**
-//     * 根据 iframe 的 name查询
-//     * @param name
-//     * @return
-//     */
-//    @GetMapping("/findAllByName/{name}")
-//    public List<Iframe> findAllByName(@PathVariable String name){
-//        log.debug("REST request to Get Iframe ByName : {}", name);
-//        return iframeService.findAllByName(name);
-//    }
+    /**
+     * 根据 iframe 的 name查询
+     * @param name
+     * @return
+     */
+    @GetMapping("/findAllByName/{name}")
+    public List<Iframe> findAllByName(@PathVariable String name){
+        log.debug("REST request to Get Iframe ByName : {}", name);
+        return iframeService.findAllByName(name);
+    }
+
+    /**
+     * 删除所有元素
+     */
+    @DeleteMapping("/deleteAll")
+    public void deleteAll(){
+        iframeService.deleteAll();
+    }
+
 //
 //    /**
 //     * 根据 iframe的name 和 阶段 来查询

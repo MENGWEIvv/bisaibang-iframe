@@ -93,4 +93,6 @@ public interface IframeRepository extends JpaRepository<Iframe, Long> {
      */
     Iframe findAllByNameAndTimeAndGroupAndStage(String name, String time, String group, String stage);
 
+    @Override
+    void deleteAll();
 }

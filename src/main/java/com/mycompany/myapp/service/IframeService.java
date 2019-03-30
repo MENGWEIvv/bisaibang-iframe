@@ -94,7 +94,13 @@ public class IframeService {
     }
 
 
-
+    /**
+     * 删除所有元素
+     */
+    public String deleteAll(){
+        iframeRepository.deleteAll();
+        return "删除成功"
+    }
 
 
 
