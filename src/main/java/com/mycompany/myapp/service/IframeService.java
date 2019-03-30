@@ -59,6 +59,7 @@ public class IframeService {
                 return iframeRepository.save(iframe);
             })
             .orElseThrow(() -> new BadRequestAlertException("id 错误", null, null));
+//        iframeRepository.update(data.getName(), data.getStage(), data.getTime(), data.getGroup(), data.getFlag(), data.getRaceId(), data.getId());
     }
 
     /**
