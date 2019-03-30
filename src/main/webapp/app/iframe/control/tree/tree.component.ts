@@ -1,46 +1,91 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NzFormatEmitEvent } from 'ng-zorro-antd';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-    selector: 'nz-demo-tree-line',
+    selector: 'jhi-tree-line',
     template: `
-        <nz-tree [nzData]="nodes" nzShowLine (nzClick)="nzEvent($event)"> </nz-tree>
+        <nz-tree [nzData]="nodes" nzShowExpand="false">
+            <ng-template #nzTreeTemplate let-node>
+                <span>{{ node.title }}</span>
+                <a (click)="showModel(edit)" class="text-primary">edit</a>
+                <a (click)="showModel(add)" class="text-primary">add</a>
+                <a (click)="delNode(node)" class="text-primary">del</a>
+                <ng-template #edit let-modal>
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-basic-title">编辑title</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input [(ngModel)]="editValue" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')" (click)="saveEdit(node)">
+                            Save
+                        </button>
+                    </div>
+                </ng-template>
+                <ng-template #add let-modal>
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-basic-title">添加子节点</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input [(ngModel)]="addValue" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" (click)="modal.close('Save click')" (click)="saveAdd(node)">
+                            Save
+                        </button>
+                    </div>
+                </ng-template>
+            </ng-template>
+        </nz-tree>
     `
 })
 export class NzDemoTreeLineComponent implements OnInit {
     nodes = [
         {
-            title: 'parent 1',
-            key: '100',
+            title: 'iframeName',
             expanded: true,
-            children: [
-                {
-                    title: 'parent 1-0',
-                    key: '1001',
-                    expanded: true,
-                    children: [
-                        { title: 'leaf', key: '10010', isLeaf: true },
-                        { title: 'leaf', key: '10011', isLeaf: true },
-                        { title: 'leaf', key: '10012', isLeaf: true }
-                    ]
-                },
-                {
-                    title: 'parent 1-1',
-                    key: '1002',
-                    children: [{ title: 'leaf', key: '10020', isLeaf: true }]
-                },
-                {
-                    title: 'parent 1-2',
-                    key: '1003',
-                    children: [{ title: 'leaf', key: '10030', isLeaf: true }, { title: 'leaf', key: '10031', isLeaf: true }]
-                }
-            ]
+            key: '0',
+            children: []
         }
     ];
-
+    editValue = '';
+    addValue = '';
+    @Output() private outer = new EventEmitter();
+    constructor(private modalService: NgbModal) {}
     nzEvent(event: NzFormatEmitEvent): void {
         console.log(event);
     }
-
     ngOnInit(): void {}
+    showModel(content) {
+        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    }
+    saveEdit(node) {
+        node.title = this.editValue;
+        this.editValue = '';
+        this.outer.emit(this.nodes);
+    }
+    saveAdd(node) {
+        node.addChildren([
+            {
+                title: this.addValue,
+                expanded: true,
+                key: node.key + '-' + node.children.length,
+                children: []
+            }
+        ]);
+        this.addValue = '';
+        this.outer.emit(this.nodes);
+    }
+    delNode(node) {
+        node.remove();
+        this.outer.emit(this.nodes);
+    }
 }

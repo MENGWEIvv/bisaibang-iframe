@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IframeService } from 'app/entities/iframe';
-// import { NzDemoTreeLineComponent } from './tree/tree.component';
 
 @Component({
     selector: 'jhi-control',
@@ -10,14 +9,10 @@ import { IframeService } from 'app/entities/iframe';
 })
 export class ControlComponent implements OnInit {
     [x: string]: any;
-    // @ViewChild(NzDemoTreeLineComponent)
-    // private treeComponent: NzDemoTreeLineComponent;
     constructor(private modalService: NgbModal, private iframeService: IframeService) {}
-
     ngOnInit() {
         this.loadAll();
     }
-
     open(content, item) {
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
         if (item) {
@@ -30,15 +25,39 @@ export class ControlComponent implements OnInit {
             this.updateRaceId = item.raceId;
         }
     }
-
     addIframe() {
-        // this.iframeService.create().subscribe(res => {
-        //     let con = res.body;
-        // }, console.log);
-        // console.log(this.addName);
-        // console.log(this.addStage);
-        // console.log(this.addTime);
-        // console.log(this.addGroups);
+        let arr = this.treeToPath(this.nodeList, [], []);
+        let arrNode = [];
+        arr.forEach(item => {
+            arrNode.push({
+                name: item[0],
+                stage: item[1] || '',
+                time: item[2] || '',
+                group: item[3] || '',
+                flag: 0,
+                raceId: 0
+            });
+        });
+        this.iframeService.create(arrNode).subscribe(res => {
+            this.iframeService.query().subscribe(list => {
+                this.iframeList = list.body;
+            }, console.log);
+        }, console.log);
+    }
+    treeToPath(tree, path, currentPath) {
+        for (let i = 0; i < tree.length; i++) {
+            if (i !== 0) {
+                currentPath.pop();
+            }
+            currentPath.push(tree[i].title);
+            if (tree[i].children.length) {
+                this.treeToPath(tree[i].children, path, currentPath);
+            } else {
+                path.push(currentPath.slice(0));
+            }
+        }
+        currentPath.pop();
+        return path;
     }
     updateIframe(item) {
         this.iframeService
@@ -51,12 +70,37 @@ export class ControlComponent implements OnInit {
                 flag: this.updateFlag,
                 raceId: this.updateRaceId
             })
-            .subscribe(res => {}, console.log);
+            .subscribe(res => {
+                this.iframeList.forEach(unit => {
+                    if (unit.iframe === item.name) {
+                        unit.forEach(it => {
+                            if (it.id === item.id) {
+                                it.name = this.updateName;
+                                it.stage = this.updateStage;
+                                it.time = this.updateTime;
+                                it.group = this.updateGroup;
+                                it.flag = this.updateFlag;
+                                it.raceId = this.updateRaceId;
+                            }
+                        });
+                    }
+                });
+            }, console.log);
     }
-    delIframe(id) {
-        this.iframeService.delete(id).subscribe(res => {}, console.log);
+    delIframe(id, name) {
+        this.iframeService.delete(id).subscribe(res => {
+            this.iframeList.forEach(unit => {
+                if (unit.iframe === name) {
+                    unit.forEach((it, index) => {
+                        if (it.id === id) {
+                            unit.splice(index, 1);
+                            return;
+                        }
+                    });
+                }
+            });
+        }, console.log);
     }
-
     defaultIframe(item) {
         this.iframeService
             .update({
@@ -68,72 +112,24 @@ export class ControlComponent implements OnInit {
                 flag: 1,
                 raceId: item.raceId
             })
-            .subscribe(res => {}, console.log);
+            .subscribe(res => {
+                this.iframeList.forEach(unit => {
+                    if (unit.iframe === item.name) {
+                        unit.forEach(it => {
+                            if (it.id === item.id) {
+                                it.flage = 1;
+                            }
+                        });
+                    }
+                });
+            }, console.log);
     }
-
     loadAll() {
-        // this.iframeService.query().subscribe(res => {
-        //     this.iframeList = res.body;
-        // }, console.log);
-        this.iframeList = [
-            {
-                iframe: 'qqqqq',
-                data: [
-                    {
-                        name: 'fghr',
-                        stage: '1111',
-                        time: '2222',
-                        group: '3333',
-                        flag: 0,
-                        raceId: 1111,
-                        id: 1
-                    },
-                    {
-                        name: 'fghr',
-                        stage: '1111',
-                        time: '2222',
-                        group: '3333',
-                        flag: 0,
-                        id: 2,
-                        raceId: 1111
-                    },
-                    {
-                        name: 'fghr',
-                        stage: '1111',
-                        time: '2222',
-                        group: '3333',
-                        flag: 0,
-                        id: 3,
-                        raceId: 1111
-                    }
-                ]
-            },
-            {
-                iframe: 'bbbbbb',
-                data: [
-                    {
-                        stage: '1111',
-                        time: '2222',
-                        group: '3333',
-                        flag: 0,
-                        raceId: 1111
-                    },
-                    {
-                        flag: 0,
-                        stage: '1111',
-                        time: '2222',
-                        raceId: 1111,
-                        group: '3333'
-                    },
-                    {
-                        stage: '1111',
-                        time: '2222',
-                        group: '3333',
-                        flag: 0,
-                        raceId: 1111
-                    }
-                ]
-            }
-        ];
+        this.iframeService.query().subscribe(res => {
+            this.iframeList = res.body;
+        }, console.log);
+    }
+    runParent(nodes) {
+        this.nodeList = nodes;
     }
 }

@@ -21,6 +21,7 @@ import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent, NavbarComponent } from './layouts';
 import { IframeModule } from './iframe/iframe.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
     imports: [
         BrowserModule,
@@ -39,7 +40,8 @@ import { IframeModule } from './iframe/iframe.module';
         // jhipster-needle-angular-add-module JHipster will add new module here
         RaceEntityModule,
         RaceAppRoutingModule,
-        IframeModule
+        IframeModule,
+        BrowserAnimationsModule
     ],
     declarations: [JhiMainComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, NavbarComponent],
     providers: [

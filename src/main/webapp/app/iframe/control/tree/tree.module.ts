@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import { NgZorroAntdModule, NZ_ICONS } from 'ng-zorro-antd';
@@ -20,15 +19,7 @@ const antDesignIcons = AllIcons as {
 const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key]);
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        FormsModule,
-        HttpClientModule,
-        HttpClientJsonpModule,
-        ReactiveFormsModule,
-        NgZorroAntdModule,
-        BrowserAnimationsModule
-    ],
+    imports: [BrowserModule, FormsModule, HttpClientModule, HttpClientJsonpModule, ReactiveFormsModule, NgZorroAntdModule],
     declarations: [NzDemoTreeLineComponent],
     bootstrap: [NzDemoTreeLineComponent],
     providers: [{ provide: NZ_I18N, useValue: en_US }, { provide: NZ_ICONS, useValue: icons }]
