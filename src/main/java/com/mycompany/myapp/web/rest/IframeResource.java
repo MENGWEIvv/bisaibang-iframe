@@ -142,6 +142,7 @@ public class IframeResource {
         List<String> stageList = iframeService.findAllStage();
         List<String> allGroup = iframeService.findAllGroup();
 
+        Set<Integer> idSet = new HashSet<>();
 
 
 
@@ -162,6 +163,7 @@ public class IframeResource {
                          allGroup) {
                         Iframe iframe = iframeService.findAllByNameAndTimeAndGroupAndStage(iframeName, time, group, stage);
                         if (iframe != null && iframe.getGroup() != null){
+
                             groups.add(iframe);
                         }
                     }
