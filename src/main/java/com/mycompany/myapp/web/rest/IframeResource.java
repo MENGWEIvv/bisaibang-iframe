@@ -18,6 +18,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * REST controller for managing Iframe.
@@ -139,37 +140,65 @@ public class IframeResource {
         List<String> nameList = iframeService.findAllName();
         List<String> timeList = iframeService.findAllTime();
         List<String> stageList = iframeService.findAllStage();
+        List<String> allGroup = iframeService.findAllGroup();
+
+
+
 
         List<EndResult> endResults = new ArrayList<>();
-        for (String name:
-             nameList) {
+//        for (String name:
+//             nameList) {
             List<IFrameName> iFrameNames = new ArrayList<>();
+
             for (String stage:
                  stageList) {
+
                 List<ResultTime> resultTimes = new ArrayList<>();
+
                 for (String time:
                      timeList) {
-                    List<Iframe> groupsIframe = iframeService.findAllByNameAndStageAndTime(name, stage);
-                    List<String> groups = new ArrayList<>();
-                    for (Iframe i:
-                         groupsIframe) {
-                        groups.add(i.getGroup());
+                    List<Iframe> groups = new ArrayList<>();
+                    for (String group:
+                         allGroup) {
+                        Iframe iframe = iframeService.findAllByNameAndTimeAndGroupAndStage(iframeName, time, group, stage);
+                        if (iframe != null && iframe.getGroup() != null){
+                            groups.add(iframe);
+                        }
                     }
                     ResultTime rt = new ResultTime();
                     rt.setTime(time);
-                    rt.setGroups(groups);
-                    resultTimes.add(rt);
+                    List<Iframe> allByNameAndStageAndTime = iframeService.findAllByNameAndStageAndTime(iframeName, stage, time);
+                    for (Iframe i:
+                        allByNameAndStageAndTime) {
+                        if (i != null && i.getGroup() != null && i.getTime() != null){
+                            rt.setGroups(groups);
+                            resultTimes.add(rt);
+                        }
+                    }
                 }
                 IFrameName iFrameName = new IFrameName();
                 iFrameName.setStage(stage);
-                iFrameName.setTimes(resultTimes);
-                iFrameNames.add(iFrameName);
+                List<Iframe> allByNameAndStage = iframeService.findAllByNameAndStage(iframeName, stage);
+                for (Iframe i:
+                    allByNameAndStage) {
+                    if (i != null && i.getGroup() != null && i.getTime() != null && i.getStage() != null){
+                        iFrameName.setTimes(resultTimes);
+                        iFrameNames.add(iFrameName);
+                    }
+                }
+
             }
             EndResult endResult = new EndResult();
-            endResult.setName(name);
-            endResult.setStages(iFrameNames);
-            endResults.add(endResult);
+            endResult.setName(iframeName);
+        List<Iframe> allByName = iframeService.findAllByName(iframeName);
+        for (Iframe i:
+            allByName) {
+            if (i != null && i.getGroup() != null && i.getTime() != null && i.getStage() != null && i.getName() != null){
+                endResult.setStages(iFrameNames);
+                endResults.add(endResult);
+            }
         }
+//        }
         return endResults;
     }
 
