@@ -48,14 +48,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     `
 })
 export class NzDemoTreeLineComponent implements OnInit {
-    nodes = [
-        {
-            title: 'iframeName',
-            expanded: true,
-            key: '0',
-            children: []
-        }
-    ];
+    @Input() name;
+    nodes = [];
     editValue = '';
     addValue = '';
     @Output() private outer = new EventEmitter();
@@ -63,11 +57,21 @@ export class NzDemoTreeLineComponent implements OnInit {
     nzEvent(event: NzFormatEmitEvent): void {
         console.log(event);
     }
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.nodes = [
+            {
+                title: this.name,
+                expanded: true,
+                key: '0',
+                children: []
+            }
+        ];
+    }
     showModel(content) {
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
     }
     saveEdit(node) {
+        console.log(11111, node);
         node.title = this.editValue;
         this.editValue = '';
         this.outer.emit(this.nodes);

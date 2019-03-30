@@ -19,13 +19,14 @@ export class ControlComponent implements OnInit {
             this.id = item.id;
             this.updateName = item.name;
             this.updateStage = item.stage;
-            this.updateTime = item.tTime;
+            this.updateTime = item.time;
             this.updateGroup = item.group;
-            this.uodateFlag = item.flag;
+            this.updateFlag = item.flag;
             this.updateRaceId = item.raceId;
         }
     }
     addIframe() {
+        this.iframeName = '';
         let arr = this.treeToPath(this.nodeList, [], []);
         let arrNode = [];
         arr.forEach(item => {
@@ -71,34 +72,12 @@ export class ControlComponent implements OnInit {
                 raceId: this.updateRaceId
             })
             .subscribe(res => {
-                this.iframeList.forEach(unit => {
-                    if (unit.iframe === item.name) {
-                        unit.forEach(it => {
-                            if (it.id === item.id) {
-                                it.name = this.updateName;
-                                it.stage = this.updateStage;
-                                it.time = this.updateTime;
-                                it.group = this.updateGroup;
-                                it.flag = this.updateFlag;
-                                it.raceId = this.updateRaceId;
-                            }
-                        });
-                    }
-                });
+                this.iframeList = res.body;
             }, console.log);
     }
     delIframe(id, name) {
         this.iframeService.delete(id).subscribe(res => {
-            this.iframeList.forEach(unit => {
-                if (unit.iframe === name) {
-                    unit.forEach((it, index) => {
-                        if (it.id === id) {
-                            unit.splice(index, 1);
-                            return;
-                        }
-                    });
-                }
-            });
+            this.iframeList = res.body;
         }, console.log);
     }
     defaultIframe(item) {
@@ -106,22 +85,14 @@ export class ControlComponent implements OnInit {
             .update({
                 id: item.id,
                 name: item.name,
-                stage: item.ustage,
+                stage: item.stage,
                 time: item.time,
                 group: item.group,
                 flag: 1,
                 raceId: item.raceId
             })
             .subscribe(res => {
-                this.iframeList.forEach(unit => {
-                    if (unit.iframe === item.name) {
-                        unit.forEach(it => {
-                            if (it.id === item.id) {
-                                it.flage = 1;
-                            }
-                        });
-                    }
-                });
+                this.iframeList = res.body;
             }, console.log);
     }
     loadAll() {

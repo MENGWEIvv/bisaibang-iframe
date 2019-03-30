@@ -1,5 +1,6 @@
 <div class="container iframe-body">
     <div class="add-iframe">
+        <input [(ngModel)]="iframeName" placeholder="全英文iframe名称">
         <button type="button" class="btn btn-primary btn-sm"
             (click)="open(add, it)">添加iframe</button>
         <ng-template #add let-modal>
@@ -11,7 +12,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <jhi-tree-line (outer)="runParent($event)"></jhi-tree-line>
+                <jhi-tree-line (outer)="runParent($event)" [name]="iframeName"></jhi-tree-line>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary"
@@ -20,7 +21,7 @@
         </ng-template>
     </div>
     <div class="iframe-tab">
-        <ngb-tabset type="pills" *ngIf="iframeList.length">
+        <ngb-tabset type="pills">
             <ngb-tab *ngFor="let item of iframeList" [title]="item.iframe">
                 <ng-template ngbTabContent>
                     <table class="table table-striped">
@@ -75,8 +76,8 @@
                                                     <input class="form-control" name="group" placeholder="小组" [(ngModel)]="updateGroup">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="group" class="control-label">赛事id</label>
-                                                    <input class="form-control" name="group" placeholder="赛事id" [(ngModel)]="updateRaceId">
+                                                    <label for="raceid" class="control-label">赛事id</label>
+                                                    <input class="form-control" name="raceid" placeholder="赛事id" [(ngModel)]="updateRaceId">
                                                 </div>
                                             </form>
                                         </div>
@@ -92,6 +93,5 @@
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>
-        <div *ngIf="!iframeList.length">暂无数据</div>
     </div>
 </div>
