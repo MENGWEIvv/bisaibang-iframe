@@ -26,7 +26,9 @@ public interface IframeRepository extends JpaRepository<Iframe, Long> {
     @Query("select group from Iframe group by group")
     List<String> findAllGroup();
 
-
+    @Query("update Iframe i set i.name=?1,i.stage=?2,i.time=?3,i.group=?4,i.flag=?5,i.raceId=?6 where i.id = ?7")
+    @Modifying
+    void update(String name, String stage, String time, String group, Integer flag, Integer raceId, Long id);
 
     /**
      * 根据 iframe 的 name查询
@@ -93,4 +95,6 @@ public interface IframeRepository extends JpaRepository<Iframe, Long> {
      */
     Iframe findAllByNameAndTimeAndGroupAndStage(String name, String time, String group, String stage);
 
+    @Override
+    void deleteAll();
 }

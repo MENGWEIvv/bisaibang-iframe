@@ -59,6 +59,7 @@ public class IframeService {
                 return iframeRepository.save(iframe);
             })
             .orElseThrow(() -> new BadRequestAlertException("id 错误", null, null));
+//        iframeRepository.update(data.getName(), data.getStage(), data.getTime(), data.getGroup(), data.getFlag(), data.getRaceId(), data.getId());
     }
 
     /**
@@ -94,7 +95,13 @@ public class IframeService {
     }
 
 
-
+    /**
+     * 删除所有元素
+     */
+    public String deleteAll(){
+        iframeRepository.deleteAll();
+        return "删除成功";
+    }
 
 
 
