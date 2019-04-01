@@ -8,12 +8,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
         <nz-tree [nzData]="nodes" nzShowExpand="false">
             <ng-template #nzTreeTemplate let-node>
                 <span>{{ node.title }}</span>
-                <a (click)="showModel(edit)" class="text-primary" *ngIf="node.level !== 0">edit</a>
-                <a (click)="showModel(add)" class="text-primary" *ngIf="node.level !== 3">add</a>
-                <a (click)="delNode(node)" class="text-primary">del</a>
+                <a (click)="showModel(edit)" class="text-primary" *ngIf="node.level !== 0">编辑</a>
+                <a (click)="showModel(add)" class="text-primary" *ngIf="node.level !== 3">添加</a>
+                <a (click)="delNode(node)" class="text-primary">删除</a>
                 <ng-template #edit let-modal>
                     <div class="modal-header">
-                        <h4 class="modal-title" id="modal-basic-title">编辑title</h4>
+                        <h4 class="modal-title" id="modal-basic-title">编辑{{ treeNameArr[node.level - 1] }}</h4>
                         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -29,7 +29,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
                 </ng-template>
                 <ng-template #add let-modal>
                     <div class="modal-header">
-                        <h4 class="modal-title" id="modal-basic-title">添加子节点</h4>
+                        <h4 class="modal-title" id="modal-basic-title">添加{{ treeNameArr[node.level] }}</h4>
                         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -52,6 +52,7 @@ export class NzDemoTreeLineComponent implements OnInit {
     nodes = [];
     editValue = '';
     addValue = '';
+    treeNameArr = ['阶段', '时间', '小组'];
     @Output() private outer = new EventEmitter();
     constructor(private modalService: NgbModal) {}
     nzEvent(event: NzFormatEmitEvent): void {
