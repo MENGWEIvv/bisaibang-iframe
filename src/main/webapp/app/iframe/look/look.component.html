@@ -21,11 +21,11 @@
         </div>
     </div> -->
         <ngb-tabset class="top-tabs">
-            <ngb-tab [title]="i.name" *ngFor='let i of iframeList' >
+            <ngb-tab [title]="i.name" *ngFor='let i of iframeList' class="navtabs">
                 <ng-template ngbTabContent  >
                     <!-- <ngb-tab [title]="l.time" ></ngb-tab> -->
                     <ngb-tabset >
-                        <ngb-tab [title]="l.stage" *ngFor='let l of i.stages'>
+                        <ngb-tab [title]="l.stage" *ngFor='let l of i.stages' >
                             <ng-template ngbTabContent>
                                 <ngb-tabset >
                                     <ngb-tab [title]="l.time" *ngFor='let l of l.times'>

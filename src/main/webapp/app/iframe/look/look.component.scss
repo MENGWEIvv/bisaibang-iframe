@@ -5,48 +5,58 @@
     padding: 12px 30px 20px;
     min-height: 100%;
 }
+
 .con {
     height: 735px;
-    //background-color: #000;
     margin: 0 auto;
     color: #fff;
     text-align: center;
 }
+
 .top-tabs {
     width: 100% !important;
-
     width: 160px !important;
     justify-content: center !important;
-
     color: #fff !important;
 }
+
 :host ::ng-deep .top-tabs a.nav-link {
     color: rgb(255, 255, 255);
     display: flex !important;
     flex: 1 !important;
+    background: #111;
 }
-:host ::ng-deep .nav-tabs {
-    border-bottom: 1 solid #000000;
+
+:host ::ng-deep .top-tabs .nav.nav-tabs {
+    border-bottom: 1 solid #000000 !important;
 }
-:host ::ng-deep .top-tabs ul.nav-tabs {
+
+:host ::ng-deep .top-tabs .nav-tabs {
     color: rgb(255, 255, 255);
-    border: 1 solid #000000;
+    border-bottom-color: #333 !important;
     border-radius: 4px;
+}
+
+:host ::ng-deep .top-tabs a.nav-link {
+    color: rgb(255, 255, 255);
     margin-top: 20px;
     margin-right: 20px;
 }
-// :host ::ng-deep .top-tabs a.nav-link{
-//     color: rgb(255, 255, 255);
-//     background: red;
-//     border: none;
-// }
+
 :host ::ng-deep .top-tabs a.nav-link.active {
     color: rgb(255, 255, 255);
-    background: #c8323e;
+    background: #ffb302;
+    border-color: #333 !important;
 }
+
+:host ::ng-deep .top-tabs a.nav-link:hover {
+    border-color: #333 !important;
+}
+
 .top.titem {
     color: aqua !important;
 }
+
 .top-tabs .top-item.active {
     background: #c8323e;
     width: 160px;
@@ -64,6 +74,7 @@
 .con-tabs .time-item.active {
     background: rgb(248, 84, 84);
 }
+
 .bot-tabs {
     display: flex;
     margin-top: 20px;
