@@ -8,8 +8,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
         <nz-tree [nzData]="nodes" nzShowExpand="false">
             <ng-template #nzTreeTemplate let-node>
                 <span>{{ node.title }}</span>
-                <a (click)="showModel(edit)" class="text-primary" *ngIf="node.key !== '0'">edit</a>
-                <a (click)="showModel(add)" class="text-primary">add</a>
+                <a (click)="showModel(edit)" class="text-primary" *ngIf="node.level !== 0">edit</a>
+                <a (click)="showModel(add)" class="text-primary" *ngIf="node.level !== 3">add</a>
                 <a (click)="delNode(node)" class="text-primary">del</a>
                 <ng-template #edit let-modal>
                     <div class="modal-header">
@@ -71,7 +71,6 @@ export class NzDemoTreeLineComponent implements OnInit {
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
     }
     saveEdit(node) {
-        console.log(11111, node);
         node.title = this.editValue;
         this.editValue = '';
         this.outer.emit(this.nodes);
