@@ -15,7 +15,7 @@ export class IframeService {
 
     constructor(protected http: HttpClient) {}
 
-    create(iframe: IIframe): Observable<EntityResponseType> {
+    create(iframe): Observable<EntityResponseType> {
         return this.http.post<IIframe>(this.resourceUrl, iframe, { observe: 'response' });
     }
 
