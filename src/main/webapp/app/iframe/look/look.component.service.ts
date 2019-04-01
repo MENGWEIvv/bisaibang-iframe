@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { IIframe } from 'app/shared/model/iframe.model';
 
-Injectable({ providedIn: 'root' });
+@Injectable({ providedIn: 'root' })
 export class LookService {
-    public resourceUrl = SERVER_API_URL + 'api';
+    public resourceUrl = SERVER_API_URL + 'api/iframeList';
 
     constructor(protected http: HttpClient) {}
-    getiframe(iframe: IIframe): Observable<HttpResponse<IIframe[]>> {
-        return this.http.post<IIframe[]>(this.resourceUrl, iframe, { observe: 'response' });
+    getiframe(name: string): Observable<HttpResponse<IIframe[]>> {
+        return this.http.get<IIframe[]>(`${this.resourceUrl}/${name}`, { observe: 'response' });
     }
 }
