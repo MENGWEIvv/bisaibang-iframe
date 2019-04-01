@@ -13,49 +13,42 @@
     text-align: center;
 }
 .top-tabs {
-    //display: flex !important;
     width: 100% !important;
-    // margin-top: 20px !important;
-    // border-radius: 4px !important;
-    // background-color: #232323 !important;
-    //flex: 1 !important;
-    // height: 53px !important;
+
     width: 160px !important;
     justify-content: center !important;
-    //align-items: center !important;
-    // font-size: 24px !important;
-    // color: rgb(15, 15, 15) !important;
-    // cursor: pointer !important;
-    // display: block !important;
-    color: #fff !important;
 
-    text-white {
-        color: #fff !important;
-    }
+    color: #fff !important;
 }
 :host ::ng-deep .top-tabs a.nav-link {
     color: rgb(255, 255, 255);
     display: flex !important;
     flex: 1 !important;
 }
-
-:host ::ng-deep .top-tabs .nav-tabs {
-    color: rgb(255, 255, 255);
-    border-bottom: 1 solid transparen;
-    border-radius: 4px;
-    display: flex !important;
-    flex: 1 !important;
+:host ::ng-deep .nav-tabs {
+    border-bottom: 1 solid #000000;
 }
-
+:host ::ng-deep .top-tabs ul.nav-tabs {
+    color: rgb(255, 255, 255);
+    border: 1 solid #000000;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+// :host ::ng-deep .top-tabs a.nav-link{
+//     color: rgb(255, 255, 255);
+//     background: red;
+//     border: none;
+// }
 :host ::ng-deep .top-tabs a.nav-link.active {
     color: rgb(255, 255, 255);
-    background: red;
+    background: #c8323e;
 }
 .top.titem {
     color: aqua !important;
 }
 .top-tabs .top-item.active {
-    background: rgb(248, 84, 84);
+    background: #c8323e;
     width: 160px;
     height: 50px;
     margin-right: 30px;
@@ -67,21 +60,7 @@
     background-color: #111;
     cursor: pointer;
 }
-.con-tabs {
-    display: flex !important;
-    margin-top: 20px !important;
-    border-radius: 4px !important;
-    width: 160px !important;
-    height: 50px !important;
-    margin-right: 30px !important;
-    font-size: 22px !important;
-    color: #fff !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    background-color: #111 !important;
-    cursor: pointer !important;
-}
+
 .con-tabs .time-item.active {
     background: rgb(248, 84, 84);
 }
