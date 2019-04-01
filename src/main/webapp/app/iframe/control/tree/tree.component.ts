@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
         <nz-tree [nzData]="nodes" nzShowExpand="false">
             <ng-template #nzTreeTemplate let-node>
                 <span>{{ node.title }}</span>
-                <a (click)="showModel(edit)" class="text-primary">edit</a>
+                <a (click)="showModel(edit)" class="text-primary" *ngIf="node.key !== '0'">edit</a>
                 <a (click)="showModel(add)" class="text-primary">add</a>
                 <a (click)="delNode(node)" class="text-primary">del</a>
                 <ng-template #edit let-modal>

@@ -9,9 +9,14 @@ import { IframeService } from 'app/entities/iframe';
 })
 export class ControlComponent implements OnInit {
     [x: string]: any;
+    showErr = false;
     constructor(private modalService: NgbModal, private iframeService: IframeService) {}
     ngOnInit() {
         this.loadAll();
+    }
+    inputChange(event) {
+        const exp = /^[A-Za-z]+$/;
+        exp.test(event) ? (this.showErr = false) : (this.showErr = true);
     }
     open(content, item) {
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
@@ -27,8 +32,8 @@ export class ControlComponent implements OnInit {
     }
     addIframe() {
         this.iframeName = '';
-        let arr = this.treeToPath(this.nodeList, [], []);
-        let arrNode = [];
+        const arr = this.treeToPath(this.nodeList, [], []);
+        const arrNode = [];
         arr.forEach(item => {
             arrNode.push({
                 name: item[0],
@@ -40,9 +45,7 @@ export class ControlComponent implements OnInit {
             });
         });
         this.iframeService.create(arrNode).subscribe(res => {
-            this.iframeService.query().subscribe(list => {
-                this.iframeList = list.body;
-            }, console.log);
+            this.iframeList = res.body;
         }, console.log);
     }
     treeToPath(tree, path, currentPath) {

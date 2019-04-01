@@ -1,8 +1,8 @@
 <div class="container iframe-body">
     <div class="add-iframe">
-        <input [(ngModel)]="iframeName" placeholder="全英文iframe名称">
+        <input [(ngModel)]="iframeName" placeholder="全英文iframe名称" (ngModelChange)="inputChange($event)">
         <button type="button" class="btn btn-primary btn-sm"
-            (click)="open(add, it)">添加iframe</button>
+            (click)="open(add, it)" [disabled]="showErr">添加iframe</button>
         <ng-template #add let-modal>
             <div class="modal-header">
                 <h4 class="modal-title" id="modal-basic-title">添加iframe</h4>
@@ -19,6 +19,7 @@
                     (click)="modal.close('Save click')" (click)="addIframe()">Save</button>
             </div>
         </ng-template>
+        <div class="err-tip" *ngIf="showErr">iframe名称格式错误</div>
     </div>
     <div class="iframe-tab">
         <ngb-tabset type="pills">
