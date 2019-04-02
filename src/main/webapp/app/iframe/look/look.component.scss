@@ -19,7 +19,9 @@
     justify-content: center !important;
     color: #fff !important;
 }
+// :host ::ng-deep .top-tabs{
 
+// }
 :host ::ng-deep .top-tabs a.nav-link {
     color: rgb(255, 255, 255);
     display: flex !important;
@@ -51,10 +53,6 @@
 
 :host ::ng-deep .top-tabs a.nav-link:hover {
     border-color: #333 !important;
-}
-
-.top.titem {
-    color: aqua !important;
 }
 
 .top-tabs .top-item.active {
