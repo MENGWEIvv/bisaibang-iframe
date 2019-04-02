@@ -22,6 +22,7 @@ import * as moment from 'moment';
 import { JhiMainComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent, NavbarComponent } from './layouts';
 import { IframeModule } from './iframe/iframe.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FooterComponent } from './layouts/footer/footer.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -43,7 +44,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         IframeModule,
         BrowserAnimationsModule
     ],
-    declarations: [JhiMainComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, NavbarComponent],
+    declarations: [JhiMainComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, NavbarComponent, FooterComponent],
     providers: [
         {
             provide: HTTP_INTERCEPTORS,
